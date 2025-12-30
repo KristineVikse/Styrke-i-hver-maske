@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – Styrke i hver maske</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="admin-login">
+        <div class="admin-login-container">
+            <img src="assets/logo_top_left.svg" alt="Styrke i hver maske" class="admin-logo">
+            <h1>Administrator pålogging</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="password">Passord</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Logg inn</button>
+                <p id="loginError" class="error-message" style="display: none;">Feil passord. Prøv igjen.</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div id="adminDashboard" style="display: none;">
+        <header class="admin-header">
+            <div class="admin-header-content">
+                <h1>Administrasjonspanel</h1>
+                <button id="logoutBtn" class="btn btn-secondary">Logg ut</button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="admin-container">
+                <!-- ADMIN TABS -->
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="posts">Blogginnlegg</button>
+                    <button class="admin-tab" data-tab="events">Arrangementer</button>
+                </div>
+
+                <!-- POSTS TAB -->
+                <div id="postsTab" class="admin-tab-content active">
+                    <!-- ADD/EDIT POST FORM -->
+                    <section class="admin-section">
+                    <h2 id="formTitle">Legg til nytt innlegg</h2>
+                    <form id="postForm">
+                        <input type="hidden" id="postId" name="postId">
+
+                        <div class="form-group">
+                            <label for="postTitle">Tittel *</label>
+                            <input type="text" id="postTitle" name="postTitle" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postDate">Dato *</label>
+                            <input type="date" id="postDate" name="postDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postAuthor">Forfatter *</label>
+                            <input type="text" id="postAuthor" name="postAuthor" value="KRISTINE VIKSE" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postImage">Bilde *</label>
+                            <div class="image-upload-container">
+                                <input type="file" id="imageUpload" accept="image/*" class="image-upload-input">
+                                <button type="button" id="uploadImageBtn" class="btn btn-upload">📸 Last opp bilde</button>
+                                <span id="imageFileName" class="image-file-name"></span>
+                            </div>
+                            <input type="hidden" id="postImage" name="postImage" required>
+                            <div id="imagePreview" class="image-preview"></div>
+                            <small>Velg et bilde fra din datamaskin (JPG, PNG, etc.)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postExcerpt">Sammendrag/Ingress *</label>
+                            <textarea id="postExcerpt" name="postExcerpt" rows="3" required></textarea>
+                            <small>Kort beskrivelse som vises i oversikten</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postContent">Hovedinnhold *</label>
+                            <textarea id="postContent" name="postContent" rows="10" required></textarea>
+                            <small>Skriv hele innlegget her. Bruk dobbel linjeskift mellom avsnitt.</small>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn">Lagre innlegg</button>
+                            <button type="button" id="cancelEdit" class="btn btn-secondary" style="display: none;">Avbryt</button>
+                        </div>
+                    </form>
+                </section>
+
+                    <!-- POSTS LIST -->
+                    <section class="admin-section">
+                        <h2>Eksisterende innlegg</h2>
+                        <div id="postsList" class="posts-list">
+                            <!-- Posts will be loaded here dynamically -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- EVENTS TAB -->
+                <div id="eventsTab" class="admin-tab-content">
+                    <!-- ADD/EDIT EVENT FORM -->
+                    <section class="admin-section">
+                        <h2 id="eventFormTitle">Legg til nytt arrangement</h2>
+                        <form id="eventForm">
+                            <input type="hidden" id="eventId" name="eventId">
+
+                            <div class="form-group">
+                                <label for="eventTitle">Tittel *</label>
+                                <input type="text" id="eventTitle" name="eventTitle" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventDate">Dato</label>
+                                <input type="date" id="eventDate" name="eventDate">
+                                <small>La stå tom hvis dato ikke er bestemt ennå</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventDateText">Datotekst *</label>
+                                <input type="text" id="eventDateText" name="eventDateText" placeholder="f.eks. KOMMER SNART, NOVEMBER 2024" required>
+                                <small>Vises på kortet hvis ingen spesifikk dato er satt</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventLocation">Sted *</label>
+                                <input type="text" id="eventLocation" name="eventLocation" placeholder="f.eks. HAUGESUND, STED ANNONSERES" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventImage">Bilde *</label>
+                                <div class="image-upload-container">
+                                    <input type="file" id="eventImageUpload" accept="image/*" class="image-upload-input">
+                                    <button type="button" id="uploadEventImageBtn" class="btn btn-upload">📸 Last opp bilde</button>
+                                    <span id="eventImageFileName" class="image-file-name"></span>
+                                </div>
+                                <input type="hidden" id="eventImage" name="eventImage" required>
+                                <div id="eventImagePreview" class="image-preview"></div>
+                                <small>Velg et bilde fra din datamaskin (JPG, PNG, etc.)</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventDescription">Beskrivelse *</label>
+                                <textarea id="eventDescription" name="eventDescription" rows="5" required></textarea>
+                                <small>Kort beskrivelse av arrangementet</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventStatus">Status *</label>
+                                <select id="eventStatus" name="eventStatus" required>
+                                    <option value="upcoming">Kommende</option>
+                                    <option value="planned">Planlegges</option>
+                                    <option value="completed">Gjennomført</option>
+                                    <option value="past">Tidligere</option>
+                                </select>
+                                <small>Kommende/Planlegges vises under "Kommende", Gjennomført/Tidligere vises under "Tidligere"</small>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn">Lagre arrangement</button>
+                                <button type="button" id="cancelEventEdit" class="btn btn-secondary" style="display: none;">Avbryt</button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- EVENTS LIST -->
+                    <section class="admin-section">
+                        <h2>Eksisterende arrangementer</h2>
+                        <div id="eventsList" class="posts-list">
+                            <!-- Events will be loaded here dynamically -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/admin.js"></script>
+</body>
+</html>
