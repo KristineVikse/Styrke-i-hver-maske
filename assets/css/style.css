@@ -1916,6 +1916,18 @@ strong {
     opacity: 0.7;
 }
 
+.footer-bottom .version {
+    font-size: 0.65rem;
+    opacity: 0.4;
+    margin-left: var(--spacing-sm);
+    font-family: 'Courier New', monospace;
+    transition: opacity var(--transition-fast);
+}
+
+.footer-bottom .version:hover {
+    opacity: 0.8;
+}
+
 /* ==========================================================================
    404 SIDE
    ========================================================================== */
